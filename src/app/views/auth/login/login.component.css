@@ -1,0 +1,39 @@
+.login-container{
+  max-width: 400px;
+  margin:15px auto 0;
+  background: #fff;
+  padding: 25px;
+  border-radius:15px;
+  }
+  
+  .error{
+    color: tomato; 
+    font-size: 12px; 
+    padding-top: 4px
+  }
+
+  .bg-color {
+    background:#034886;
+    background: linear-gradient(to right, #034886, #055ba9);
+    background-size: cover;
+    margin: 0;
+    height: 100%;
+    padding-top: 50px;
+  }
+  .contact100-form-btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 20px;
+    height:40px;
+    background-color: #ff3300;
+    font-size: 16px;
+    color: #fff;
+    line-height: 1.2;
+    transition: all 0.4s;
+    
+}
+.no-padding{padding:0;}
+.checkbox{float: left;
+  margin-top: 2px;}
+  label{font-weight: bold;}

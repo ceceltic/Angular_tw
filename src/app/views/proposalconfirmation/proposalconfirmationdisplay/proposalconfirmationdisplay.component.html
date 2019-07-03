@@ -1,0 +1,138 @@
+<div class="container-fluid" style="background:#055ba9;">
+  <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 container" >
+  
+    <h5 class="my-0 mr-md-auto font-weight-normal"><a href="#home">
+      <a [routerLink]="['/']"><img src="assets/quote/images/logo.png" class="img-fluid" /></a>
+    </a>
+    </h5>
+    
+    <nav class="my-2 my-md-0 mr-md-3">
+      <a class="p-2 " href="#">e: info@gibl.in</a>
+      <a class="p-2 ">Ph: 33 - 66074257</a>
+      
+    </nav>
+  </div>
+  </div>
+  <div class="container">
+    <div class="row conf_mar" *ngIf="showProposaldata && showPremiumdata && showQuotedata">
+      <div class="col-md-8 col-xs-12 new-padding">
+        <div class="col-md-6 col-xs-12 col-sm-6 shadow_box" id="personal_detail" style="min-height:227px;">
+          <h4>Your Personal Details <a [routerLink]="['/proposal']"  class="text-info" style="font-size: 14px; padding-left: 15px;"><strong><i class="fa fa-edit"></i></strong> Edit</a></h4>
+  
+          <div class="col-md-7 col-xs-12 result"> <span>{{personalDetailJson.custName}}</span></div>
+  
+          <div class="col-md-5 col-xs-12 result"><span> D.O.B :</span> <span>{{personalDetailJson.custDOBDD}}/{{personalDetailJson.custDOBMM}}/{{personalDetailJson.custDOBYY}} </span></div>
+  
+          <div class="col-md-6 col-xs-12 result"><span>ontact No : </span><span>{{personalDetailJson.custPhone}} </span></div>
+  
+          <div class="col-md-12 col-xs-12 result"><span>Email Id :</span> <span>{{personalDetailJson.custEmail}}</span> </div>
+        </div>
+        <div class="col-md-6 col-xs-12 col-sm-6 shadow_box min-ht" style="min-height:227px;">
+          <h4> Your Personal Address </h4>
+          <div class="col-md-12 col-xs-12 result"> <span>{{addressDetailJson.custAddress}}</span></div>
+          <div class="col-md-12 result"> <span>{{addressDetailJson.custCityLabel}}, {{addressDetailJson.custStateLabel}}</span>, <span>{{addressDetailJson.custPincode}}</span></div>
+        </div>
+        <div class="col-sm-12 col-xs-12 shadow_box" id="policy_detail">
+          <h4>Your Vehicle Details <a [routerLink]="['/proposal']" [queryParams]="{ edit: 'cardetail' }" class="text-info"><strong><i class="fa fa-edit"></i></strong> Edit</a></h4>
+          <div class="row">
+            <div class="col-md-6 col-xs-12 result"> 
+				<div> <span>YOUR BIKE NUMBER:</span> <span>{{proposalJson.carDetailForm.rtoCode}}{{proposalJson.carDetailForm.rtoregNumber}}</span></div>
+				<div> <span>BIKE REGISTRATION DATE:</span> <span>{{quoteJson.registration_date.day}} {{months[quoteJson.registration_date.month]}}, {{quoteJson.registration_date.year}}</span></div>
+				<div> <span>ENGINE NUMBER:</span> <span> {{proposalJson.carDetailForm.engineNo}} </span></div>
+                <div> <span>CHASSIS NUMBER:</span><span> {{proposalJson.carDetailForm.chassisNo}}</span></div>
+                <div> <span>BIKE:</span><span> {{quoteJson.bike_fullname}}</span></div>
+                <div> <span>IDV:</span><span> {{premiumJson.IDV | currency:'Rs.' : 'symbol' : '1.0'}}</span></div>
+				</div>
+			<div class="col-md-6 col-xs-12 result ">
+				<div><span>PREVIOUS POLICY EXPIRY DATE: </span> <span>{{quoteJson.policy_expiry_date.day}} {{months[quoteJson.policy_expiry_date.month]}}, {{quoteJson.policy_expiry_date.year}}</span></div>
+                <div><span>PREVIOUS POLICY INSURER:</span> <span>{{premiumJson.COMPANY_NAME}}</span></div>
+                <div><span>PREVIOUS POLICY NUMBER:</span> <span> {{proposalJson.carDetailForm.prevPolicyNo}}</span></div>
+                <div><span>CLAIMED IN THE PAST YEAR:</span><span> No</span></div>
+				<div><span>PREVIOUS NO CLAIM BONUS (NCB):</span><span> {{quoteJson.prev_ncb}}%</span></div>
+				<div><span>ADD-ONS TAKEN:</span><span *ngIf="quoteJson.zero_dep==1"> Zero Dep</span><span *ngIf="quoteJson.pa_owner==1"> PA Owner</span></div>
+            </div>
+         
+          </div>
+          
+        </div>
+    </div>
+    <div class="col-md-4 col-xs-12  shadow_box " style="font-size: 12px;
+      background: #fff; color: #868080; height: auto; padding-top:15px;">
+  
+        <div class="form-group col-md-12 nominee_margin" style="background:rgba(19, 214, 161, 0.25);padding: 21px; color: #000; margin-bottom:0px; font-family:'Avenir-Book';"> This is required only if you have been helped by a customer executive to fill up the form
+          <input type="text" class="form-control " placeholder="Enter Customer Executive Code" style="border: 1px solid #ccc; padding: 10px; color: #666; background: #fff;
+          margin-top: 10px; width:100%;" maxlength="10">
+        </div>
+        <div class="">
+          <div class="row col-xs-12">
+            <div class="col-md-12 col-11" style="color: #333; padding-left:36px; text-align: left; float: left; margin-top: 0px;">
+              <div class="col-md-3 col-3 col-sm-2 company_logo text-left" style="margin:auto;"> <img src="assets/company_logo/{{premiumJson.COMPANY_LOGO}}" style="text-align: center;max-width:none; margin-left: -39px;"> </div>
+              
+              <div style="color: #000; font-size:20px; font-weight: bold; text-align: center;"> Annual Premium</div>
+              
+              <div class="text-center"><span style="color:red; font-size:18px;font-weight:bold;">{{premiumJson.TOTAL_PREMIUM | currency:'Rs.' : 'symbol' : '1.0'}}</span> <span> (18% GST Included)</span> </div>
+              
+            </div>
+            <div class="col-md-11 col-11  pull-right" style="padding: 0; margin-left:33px;">
+              <label>
+                <input type="checkbox" (change)="termsCheckbox($event)" style="display:block; float:left;margin-right:5px; font-size:11px;" checked>I declare that the information provided above is true and accept that if it is found to be false, it may impact claims . <i style="font-style: normal;" *ngIf="quoteJson.pa_owner!=1">I also declare that I have an existing Personal Accident cover of Rs. 15 lacs and agree to following Terms and Conditions.</i> I authorize GreenLife Insurance Broking Pvt. Ltd. to represent me at insurance companies for my insurance needs.
+                <br>
+                <a href="https://www.gibl.in/UI/Pages/TermsandCondition.aspx" class="read" target="_blank">(Read it)</a></label>
+                <span *ngIf="!errorContinueBuy" class="pull-left input-group formerror-msg" style="color:red;">Please accept terms and conditions</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12" style=" padding: 0;">
+            
+            <div *ngIf="!showPaymentdata" id="registration-loader" style="text-align:center;"><img src="assets/quote/images/load.gif"></div>
+			<p class="formerror-msg" *ngIf="showErrormsg" style="color: #ec0c0c;text-align: center;margin: 11px 2px;">{{resMessage}}</p>
+            <button type="button" class="btn btn-primary pull-right" (click)="createProposal()" style="display:inherit; margin:auto; float:none;">Click Here To Pay</button>
+            
+            <form #hdfcForm="ngForm" (ngSubmit)="paymentFormSubmit(hdfcForm, $event)" [action]="paymentUrlHDFC" method="post">
+				<input type="hidden" *ngIf="(HdfcJsonData | json) != '{}'" value="{{HdfcJsonData.Trnsno}}" name="Trnsno"><br />
+				<input type="hidden" *ngIf="(HdfcJsonData | json) != '{}'" value="{{HdfcJsonData.FeatureID}}" name="FeatureID"><br />
+				<input type="hidden" *ngIf="(HdfcJsonData | json) != '{}'" value="{{HdfcJsonData.CheckSum}}" name="CheckSum"><br />
+				<button #hdfcSubmitBtn class="invisible" type="submit">submit</button>
+			</form>
+			
+            <form #relianceForm="ngForm" (ngSubmit)="paymentFormSubmit1(relianceForm, $event)" method="post" [action]="paymentUrlRELIANCE" >
+				<input type="hidden" *ngIf="(RelianceJsonData | json) != '{}'" class="form-control" name="ProposalNo" value="{{RelianceJsonData.ProposalNo}}" readonly/>
+				<input type="hidden" *ngIf="(RelianceJsonData | json) != '{}'" class="form-control" name="ProposalAmount" value="{{RelianceJsonData.FinalPremium}}" readonly/>
+				<input type="hidden" class="form-control" name="PaymentType" value="1" />
+				<input type="hidden" class="form-control" name="userID" value="100002" readonly/>
+				<input type="hidden" class="form-control" name="Responseurl" value="{{responseUrlRELIANCE}}" readonly/>
+				<input type="hidden" id="url" name='url' value="{{paymentUrlRELIANCE}}?ProposalNo={{RelianceJsonData.ProposalNo}}&userID=100002&ProposalAmount={{RelianceJsonData.FinalPremium}}&PaymentType=1&Responseurl={{responseUrlRELIANCE}}">
+				<button #relianceSubmitBtn class="invisible" type="submit" >pay</button>
+            </form>
+			
+			<form #bajajForm="ngForm" (ngSubmit)="paymentFormSubmit2(bajajForm, $event)" method="post" [action]="paymentUrlBajaj" >
+				<input type="hidden" class="form-control" name="TxnAmount" value="{{premiumJson.TOTAL_PREMIUM}}" />
+				<button #bajajSubmitBtn class="invisible" type="submit" >pay</button>
+			</form>
+			
+			<form  #bhartiForm="ngForm" (ngSubmit)="paymentFormSubmit3(bhartiForm, $event)" method="post" [action]="paymentUrlBharti">
+				<input *ngIf="(BhartiJsonData | json) != '{}'" type="hidden" value="{{BhartiJsonData.OrderNo}}" name="OrderNo" /> 
+				<input *ngIf="(BhartiJsonData | json) != '{}'" type="hidden" value="{{BhartiJsonData.QuoteNo}}" name="QuoteNo"/>
+				<input *ngIf="(BhartiJsonData | json) != '{}'" type="hidden" value="{{BhartiJsonData.Channel}}" name="Channel"/>
+				<input *ngIf="(BhartiJsonData | json) != '{}'" type="hidden" value="{{BhartiJsonData.Product}}" name="Product"/>
+				<input *ngIf="(BhartiJsonData | json) != '{}'" type="hidden" value="{{BhartiJsonData.Amount}}"  name="Amount"/>
+				<input *ngIf="(BhartiJsonData | json) != '{}'" type="hidden" value="N" id="IsMobile" name="IsMobile" />
+				<button #bhartiSubmitBtn class="invisible" type="submit" >pay</button>
+			</form>
+			
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer>
+    <div class="container">
+      <div class="col-md-12 text-center" style="font-family: 'Avenir-Book'!important; padding-top:0px;font-size: 11px;margin-top: 40px; padding-bottom:25px;">
+        <p style="color: #6C6C6C; padding-top: 0px;font-family: 'Avenir-Book'; font-size:11px;  padding-bottom:0; margin-bottom:0;"> ©Copyright 2014 - till now| <a href="https://www.gibl.in/" style="color: #6C6C6C; font-family: 'Avenir-Book'; font-size: 11px;  padding-bottom:0;"> www.gibl.in</a> | All Rights Reserved | Insurance is the subject matter of solicitation.
+          <br> IRDA License Code No : DB 482/10 Dated 27-05-2016 valid till 26-05-2019, Direct(Non-Life) | Principal Officer : Mr. Sahid Ali | Ph: 033 - 66074257
+          <br>
+        </p>
+        <p style="color: #6C6C6C; padding-top: 0px; font-family: 'Avenir-Book'; font-size: 11px;  padding-bottom:0; margin-bottom:0;"> Regd. &amp; Corp. Office : GreenLife Insurance Broking Pvt. Ltd., A-4/B, 1st Floor, Rishi Tech Park, Near Unitech, New Town, Kolkata-700156, West Bengal, India </p>
+        <p style="color: #6C6C6C !important; padding-top: 0px; font-family: 'Avenir-Book'; font-size: 11px; padding-bottom:0; margin-bottom:0;"> Designed &amp; Developed By : <a href="http://www.ecelticgroup.com/" target="_blank" style="color: #6C6C6C !important; text-decoration: none; margin-bottom:0; font-size:11px;">e-Celtic</a> </p>
+      </div>
+    </div>
+  </footer>

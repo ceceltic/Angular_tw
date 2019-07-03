@@ -1,0 +1,350 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~@ng-select/ng-select/themes/default.theme.css";
+@font-face{font-display: swap; font-family:'Avenir-Book';src:url('/assets/fonts/Avenir.ttf') format('truetype'), url('/assets/fonts/avenirltstd-book-webfont.svg#AvenirLTStd45BookRegular') format('svg');font-weight:normal;font-style:normal;}
+
+
+.card .bg-info{background: #f9f6f6 !important; font-weight: bold;}.card-header{ padding: 0 !important;}.card{margin:15px 0;}
+.card .btn-link {
+    font-weight: bold !important;
+    color: #00315d !important;
+    font-size: 14px;
+}
+body {
+    background: #e6e6e6;
+    font-family: 'Avenir-Book' !important ;
+}
+.modal-dialog{height: 100% !important;}
+/* .modal-content{height: 100% !important;} */
+.card-body {
+    flex: 1 1 auto;
+    padding: 10px !important;
+}
+.card {
+    -moz-box-direction: normal;
+    -moz-box-orient: vertical;
+    background-color: #fff;
+    border-radius: 0.25rem;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    margin-bottom:1px;
+    border:none;
+}
+.card-header:first-child {
+    border-radius: 0 !important;
+}
+
+.card-header {
+    background-color: #f7f7f9;
+    margin-bottom: 0;
+    padding: 20px 1.25rem;
+    border:none;
+    
+}
+.card-header a i{
+    float:left;
+    font-size:25px;
+    padding:5px 0;
+    margin:0 25px 0 0px;
+    color:#195C9D;
+}
+.card-header i{
+    float:right;        
+    font-size:30px;
+    width:1%;
+    margin-top:8px;
+    margin-right:10px;
+}
+.card-header a{
+    width:97%;
+    float:left;
+    color:#565656;
+}
+.card-header p{
+    margin:0;
+}
+
+.card-header h3{
+    margin:0 0 0px;
+    font-size:20px;
+    font-family: 'Slabo 27px', serif;
+    font-weight:bold;
+    color:#3fc199;
+}
+.card-block {
+    -moz-box-flex: 1;
+    flex: 1 1 auto;
+    padding: 20px;
+    color:#232323;
+    box-shadow:inset 0px 4px 5px rgba(0,0,0,0.1);
+    border-top:1px soild #000;
+    border-radius:0;
+}
+.collapse.show {
+    display: block;
+}
+.custom-select {
+    display: inline-block;
+    width: 100%;
+    height: calc(2.25rem + 2px);
+    padding: .375rem 1.75rem .375rem .75rem;
+    line-height: 1.5;
+    color: #495057;
+    vertical-align: middle;
+     background-size: 8px 10px;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+.btn-link:hover {
+    color: #0056b3;
+    text-decoration: underline;
+    background-color: transparent;
+    border-color: transparent;
+}
+.btn-link {
+    font-weight: 400;
+    color: #007bff;
+    background-color: transparent;
+}
+.card-body {
+    flex: 1 1 auto;
+    padding: 1.25rem;
+}
+.d-flex {
+    display: flex!important;
+}
+.float-right {
+    float: right!important;
+}
+.btn-primary[_ngcontent-c1] {
+    color: #fc5846 !important;
+    background-color: #ffffff;
+    border-color: #fc5846;
+}
+.text-center {
+    text-align: center!important;
+}
+
+:focus {
+    outline: none !important;
+}
+.invalid-feedback {
+    display: block !important;
+}
+.custom-select:focus
+{
+	box-shadow:none !important;
+}
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 26px;
+    position: absolute;
+    top:-4px !important;
+    right: 1px;
+    width: 20px;
+    left: -57px;
+}
+
+.select2-container .select2-selection--single {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    align-items: center;
+    background-color: transparent;
+    border: none;
+    height: 40px;
+    outline: none;
+    position: relative;
+    border:0;
+}
+
+.select2-container--default .select2-selection--single{border:0 !important;}
+.select2-selection__arrow::before {
+    content: '\f002';
+    font-family: 'FontAwesome';
+    font-size: 22px;
+    color: #555555;
+}
+@media(min-width:992px){
+    .select2-container{min-width: 330px;}
+
+}
+.select2-container--default .select2-selection--single .select2-selection__arrow b{ visibility: hidden;}
+.financer-desktop{padding:5px !important;}
+.select2-container--open .select2-dropdown{top:6px; width: auto !important; min-width: 300px !important; left:-15px !important; }
+
+.select2-container .select2-selection--single .select2-selection__rendered{ font-size: 12px; padding-left: 0 !important;
+}
+.select2-container--default .select2-selection--single{ background: transparent !important;}
+.select2-results__option{font-size: 12px !important;}
+.select2-container--open .select2-dropdown--below{border-top:1px solid !important;}
+.close-gb {
+    font-size: 32px;
+    right: 8px;
+    top: -6px;
+    position: absolute;
+    z-index: 9999999;
+}
+   
+#config-panel-one .card-body {
+    padding: 11px 10px !important;
+}
+#config-panel-one .col-md-12 {
+    padding: 3px 8px;
+	float:left;
+}
+#config-panel-one .ngb-dp-day, #config-panel-one  .ngb-dp-week-number,#config-panel-one  .ngb-dp-weekday {
+    width: 24px;
+    height: 24px;
+    font-size: 12px;
+}
+.small-select {
+    width: 71px !important;
+    font-size: 14px !important;
+    padding: 4px !important;
+    margin-right: 9px;
+}
+.medium-select {
+    width: 47% !important;
+    font-size: 14px !important;
+    padding: 4px !important;
+    margin-right: 9px;
+}
+#config-panel-one label {
+    margin-bottom: 0 !important;
+}
+.ngb-dp-navigation-select .custom-select{font-size: 12px !important; padding: 2px !important;}
+.accordion > .card{ overflow:visible !important; background: transparent !important; border:0 !important; }
+.card-header{border-bottom:0 !important;}
+.nav-link {
+    display: block;
+    padding: 0.5rem 1rem !important;
+    border-bottom: 2px solid #ccc;
+    border-radius: 0 !important;
+    padding-bottom: 1px !important;
+    text-align: center;
+}
+
+#sidebar-wrapper .accordion > .card .card-header{background:#dde1e3 !important;     box-shadow: 1px 3px 2px #d0d0d0;
+}
+.new-foot .card-header {background: none !important;    box-shadow:none !important }
+.new-foot .card .card-header {background: none !important;    box-shadow:none !important }
+.tooltip-inner {
+    max-width: 200px;
+    padding: 0.25rem 0.5rem;
+    color: #fff;
+    text-align: center;
+    background-color: #00b07c  !important;
+    border-radius: 0.25rem;
+    font-size: 11px !important;
+}
+.bs-tooltip-top .arrow::before{border-top-color: #00b07c  !important;}
+.btn-link:hover{text-decoration: none !important;}
+
+.gb-modal  .select2-container{ 
+    border:1px solid #ccc !important; color: #007bff !important; font-size:15px !important;
+    padding:10px !important; background: #fff !important;}
+
+
+    .gb-modal .select2-container{    width: auto !important;}
+    .gb-modal h5{ font-weight: bold; padding-bottom: 15px;}
+    .gb-modal  .select2-container--default .select2-selection--single{ font-size: 15px !important;}
+    .gb-modal .select2-container .select2-selection--single .select2-selection__rendered{font-size:12px !important; font-weight: bold !important; color:#105493 !Important;padding-left:25px !important;}
+   
+    .gb-modal h5{text-align: center !important;}.gb-modal .select2-container {
+        width: 100% !important;
+        margin-left: 0px;
+    }
+    .gb-modal  .select2-container--default .select2-selection--single .select2-selection__arrow {
+        height: 26px;
+        position: absolute;
+        top: 1px;
+        right: 4px!important;
+        width: 21px!important;
+        left:-5px !important;
+    }
+    .gb-modal   .close-gb{top:11px !important;}
+
+    @media (max-width:991px){
+        .select2-container--open .select2-dropdown {
+        top: 6px;
+        width: auto !important;
+        min-width: 294px !important;
+        left: -5px !important;
+        top: -50px !important;;
+    }}
+
+   .modal-content .nav-pills .nav-link.active, .nav-pills .show > .nav-link{   color: #0748a9 !Important;
+    background: #fff !important;
+    font-weight: bold !important;
+    padding-left: 0 !important;
+    border-bottom: 2px solid #2387ce;
+    border-radius: 0;
+    padding-bottom: 1px !important;    padding-left: 17px !important;
+}
+
+.modal-content .nav-link{ font-size: 13px !important; color: #495057 !important;}
+.nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
+    color: #02629b !important;
+    background-color: #fff;
+    border-color: #dee2e6 #dee2e6 #fff;
+    font-weight: bold!important;
+  }
+  .ng-dropdown-panel .ng-dropdown-panel-items .ng-option{font-size: 12px !important; text-align: left !important;}
+  .ng-select.ng-select-single .ng-select-container .ng-value-container, .ng-select.ng-select-single .ng-select-container .ng-value-container .ng-value {
+ 
+font-size: 12px !important;
+}
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+@media(max-width:991px){
+    .btn-light{font-weight: bold;}
+ ngb-datepicker{width:100% !important; top:75px !important;}
+.ngb-dp-month:first-child .ngb-dp-week{padding:5px 1px !important;}
+}
+ngbDatepickerDayView{    text-align: center;
+    width: 2rem;
+    height: 2rem;
+    line-height: 2rem;
+    border-radius: .25rem;
+    background: 0 0;
+    margin-top: 14px;}
+
+    
+    .ngb-dp-day, .ngb-dp-week-number, .ngb-dp-weekday {
+        width: 3rem !important;
+        height: 1.5rem !important;
+        margin-top: 7px !important;
+    }
+
+    @media(max-width:991px){
+
+        body{background:#efefef !important;}
+        .ngb-dp-day, .ngb-dp-week-number, .ngb-dp-weekday{width: 2.65rem !important;}
+        ngb-datepicker {
+            width: 103% !important;
+            top: 78px !important;
+            padding: 0 !important;
+            left: -2px !important;
+            box-shadow: -2px 12px 20px 0px #CCC;
+        }
+
+        ngb-datepicker.dropdown-menu{width:18.8rem !important;margin-left: 3px;}
+    }
+
+   .ngb-dp-today .btn-light:hover {
+        color: #212529;
+        background-color: #13d6a1 !important;
+        border-color: #13d6a1;
+        color: #fff;
+    }
+    @media(min-width:992px) and (max-width:1299px){
+
+        #config-panel-one .card-body {
+            padding: 11px 25px !important;
+        }
+    }

@@ -1,0 +1,13 @@
+@font-face{font-display: swap;font-family:'FontAwesome';src:url('/assets/fonts/fontawesome-webfont.eot?v=4.7.0');src:url('/assets/fonts/fontawesome-webfont.eot?#iefix&v=4.7.0') format('embedded-opentype'),url('/assets/fonts/fontawesome-webfont.woff2?v=4.7.0') format('woff2'),url('/assets/fonts/fontawesome-webfont.woff?v=4.7.0') format('woff'),url('/assets/fonts/fontawesome-webfont.ttf?v=4.7.0') format('truetype'),url('/assets/fonts/fontawesome-webfont.svg?v=4.7.0#fontawesomeregular') format('svg');font-weight:normal;font-style:normal}.fa{display:inline-block;font:normal normal normal 14px/1 FontAwesome;font-size:inherit;text-rendering:auto;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;}.fa-envelope-square:before{content:"\f199";}.fa-phone-square:before {content: "\f098";}.fa-pull-left{float:left}.fa-pull-right{float:right}.fa.fa-pull-left{margin-right:.3em}.fa.fa-pull-right{margin-left:.3em}.pull-right{float:right}.pull-left{float:left}.fa.pull-left{margin-right:.3em}.fa.pull-right{margin-left:.3em}
+.fa-long-arrow-left:before {content: "\f177";padding-right: 8px;color: #11bfa6;}
+.footer_bottom p{font-size:11px; font-weight:normal;}.full-name{padding-left:10px; width:60% !important;}
+.rc-copy{font-size: 12px;text-align: left;padding-left: 16px;color: blueviolet; padding-top:0px; margin-top:10px; float:left;}
+.fa-long-arrow-right:before {
+    content: "\f178";
+    padding-left: 8px;
+    color: #11bfa6;
+}
+.fa-download:before {
+    content: "\f019";
+	font-size: 26px;
+}

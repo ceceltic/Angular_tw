@@ -1,0 +1,364 @@
+<div class="container-fluid" style="background:#055ba9;">
+  <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 container" style="margin:auto !important;" >
+  
+    <h5 class="my-0 mr-md-auto font-weight-normal"><a href="#home">
+      <a [routerLink]="['/']"><img src="assets/quote/images/logo.png" class="img-fluid nav-brand" /></a>
+    </a>
+  <a class="nav-link float-right logo hidden-xs-down">Two wheeler Insurance</a>
+    </h5>
+    <nav class="my-2 my-md-0 mr-md-3">
+      <a class="p-2 ">info@gibl.in</a>
+      <a class="p-2 ">33 - 66074257</a>
+      
+    </nav>
+  </div>
+  </div>
+  
+  <div class="container-contact100 mt-40">
+    <div class="wrap-contact100-new">
+        <div class="row" *ngIf="showQuotedata && showPremiumdata">
+          <div class="col-md-2 col-5 insurer-logo">
+            <img src="assets/company_logo/{{premiumJson.COMPANY_LOGO}}">
+          </div>
+          <div class="col-md-4 col-7 insurer-name pull-left">
+            <h5>Your Insurer</h5>
+            <p>{{premiumJson.COMPANY_NAME}}</p>	<a style="font-size:12px;" [routerLink]="['/quote-compare']"><i class="fa fa-long-arrow-left m-l-7 pa" aria-hidden="true"></i><strong>Change Insurer</strong></a>
+          </div>
+          <div class="col-md-6 col-12 text-right pull-right your-car">
+            <h5>Your Bike </h5>
+            <p>{{quoteJson.bike_fullname}}</p>
+          </div>
+        </div>
+    </div>
+    <!--<div class="wrap-contact101 no-padding mt-10 hidden-lg-down" *ngIf="showPremiumdata">
+      <div class="app-sidebar-section">
+        <ul class="quote-settings form">
+          <li class="col-md-5 col-6 pull-left key prm_n"> <span>Premium:  Rs. {{premiumJson.NET_PREMIUM}}</span> 
+            <br> <span class="key gst">+ GST  (18%) Rs. {{premiumJson.SERVICE_TAX}} </span> 
+          </li>
+          <li class="col-md-5 col-6 pull-right"> <span class="value prm">  Total Premium Rs.{{premiumJson.TOTAL_PREMIUM}}</span> 
+          </li>
+        </ul>
+      </div>
+    </div>-->
+    
+    <div class="wrap-contact101 no-padding mt-10" *ngIf="showPremiumdata">
+      <div class="app-sidebar-section  row">
+        <ul class="quote-settings form col-md-4">
+          <li class="pull-left"> <span class="key pull-left">IDV :</span>  <span class="value pull-left">{{premiumJson.IDV | currency:'Rs.' : 'symbol' : '1.0'}}</span> 
+          </li>
+          <li class="pull-left pl-0"> <span class="key pull-left">Policy Tenure: </span>
+            <span class="value pull-left"> {{premiumJson.PREMIUM_YEAR}} Years</span>
+          </li>
+        </ul>
+        <ul class="quote-settings form col-md-4 col-12 pull-left">
+          <li class="hidden-md-down"> <span class="key pull-left">Premium: </span>  <span class="value pull-left"> {{premiumJson.NET_PREMIUM | currency:'Rs.' : 'symbol' : '1.0'}} </span> 
+          </li>
+          <li class="hidden-md-down"><span class="key gst pull-left">+ GST  (18%): </span><span class="value pull-left">  {{premiumJson.SERVICE_TAX | currency:'Rs.' : 'symbol' : '1.0'}} </span> 
+          </li>
+        </ul>
+        <ul class="quote-settings form col-md-4 col-12 pull-left">
+          <li class="hidden-md-down"> <span class="value pull-left  prm">Total Premium = {{premiumJson.TOTAL_PREMIUM | currency:'Rs.' : 'symbol' : '1.0'}} </span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="container-contact100">
+    <div class="wrap-contact100-new">
+      <div class="container">
+        <div class="row main-tab">
+          <div class="col-md-3 col-3" (click)="activepersonalDetail();" [ngClass]="{'active':personalDetailTab,'complete':personalDetailComplete}" id="personalDetail">Personal Detail</div>
+          <div class="col-md-3 col-3" (click)="activecarDetail();" [ngClass]="{'active':carDetailTab,'complete':carDetailComplete}" id="carDetail">Bike Detail</div>
+          <div class="col-md-3 col-3" (click)="activeaddressDetail();" [ngClass]="{'active':addressDetailTab,'complete':addressDetailComplete}" id="addressDetail">Address</div>
+          <div class="col-md-3 col-3" (click)="activenomineeDetail();" [ngClass]="{'active':nomineeDetailTab,'complete':nomineeDetailComplete}" id="nomineeDetail">Nominee Detail</div>
+          
+        </div>
+      </div>
+    </div>
+    
+  
+  <div class="wrap-contact100" id="personal-detail" [ngStyle]="{'display':personalDetailTab ? 'block' : 'none' }">
+    <form class="form-horizontal" [formGroup]="personalDetailForm" (ngSubmit)="personalDetailSubmit()">
+    <div class="contact100-form validate-form"> <span class="contact100-form-title text-left"> Enter Your Personal Detail </span>
+      <div class="wrap-input100 validate-input regis name" [ngClass]="{ 'error-border':(personalDetailSubmitted || f.custName.touched) && f.custName.errors }" >
+        <div class="col-md-2 col-3 pull-left no-padding">
+          <select class="custom-select" formControlName="custTitle">
+            <option value="MR">Mr.</option>
+            <option value="MRS">Mrs.</option>
+            <option value="MS">Ms.</option>
+          </select>
+        </div> 
+        <span class="label-input100" style="padding-left:10px;">Enter Your full Name </span>
+        <input type="text" formControlName="custName" class="input100 full-name"  placeholder="Car Owner Name" />
+        <span *ngIf="(personalDetailSubmitted || f.custName.touched) && f.custName.errors" class="invalid-feedback label-input100">
+          <span *ngIf="f.custName.errors.required" class="pull-left input-group name formerror-msg" style="margin-left:105px;">Enter Your full Name.</span>
+          
+        </span>
+        
+        
+        
+      </div>
+      <div class="wrap-input100  validate-input" data-validate="Sorry it's a Wrong Input"><span class="label-input100 pull-left input-group">Enter Your Date Of Birth</span>
+        
+        <span *ngIf="(personalDetailSubmitted) && f.custDOBDD.errors" class="invalid-feedback">
+          <span *ngIf="f.custDOBDD.errors.required" class="pull-left input-group dob formerror-msg">Select Your Date Of Birth.</span>
+        </span>
+        <span *ngIf="(personalDetailSubmitted) && f.custDOBMM.errors" class="invalid-feedback">
+          <span *ngIf="f.custDOBMM.errors.required" class="pull-left input-group dob formerror-msg">Select Your Month Of Birth.</span>
+        </span>
+        <span *ngIf="(personalDetailSubmitted) && f.custDOBYY.errors" class="invalid-feedback">
+          <span *ngIf="f.custDOBYY.errors.required" class="pull-left input-group dob formerror-msg">Select Your Year Of Birth.</span>
+        </span>
+        <div class="col-md-2 col-3 pull-left no-padding">
+          <select class="custom-select" id="dob_dd" formControlName="custDOBDD">
+            <option VALUE="">Date</option>
+            <option *ngFor="let item of custDOBDD">{{item}}</option>
+          </select>
+        </div>
+        <div class="col-md-3 col-5 pull-left no-padding">
+          <select class="custom-select" id="dob_mm" formControlName="custDOBMM">
+            <option value="">Month</option>
+            <option *ngFor="let item of custDOBMM">{{item}}</option>
+          </select>
+        </div>
+        <div class="col-md-3 col-3 pull-left no-padding">
+          <select class="custom-select" id="dob_yy" formControlName="custDOBYY">
+            <option value="">Year</option>
+            <option *ngFor="let item of custDOBYY">{{item}}</option>
+          </select>
+        </div>
+      </div>
+      <div class="wrap-input100    validate-input" data-validate="Sorry it's a Wrong Input"  [ngClass]="{ 'error-border':(personalDetailSubmitted || f.custPancard.touched) && f.custPancard.errors }" > <span class="label-input100">Type Your Pan Card Number</span>
+        <input class="input100 pan-card" type="text" formControlName="custPancard" placeholder="e.g.Abcde1234f" autocomplete="off">
+        
+        <span *ngIf="(personalDetailSubmitted || f.custPancard.touched) && f.custPancard.errors" class="invalid-feedback">
+          <span *ngIf="f.custPancard.errors.required" class="pull-left input-group formerror-msg">Enter Your Pan Card Number.</span>
+          <span *ngIf="f.custPancard.errors.pattern" class="pull-left input-group formerror-msg">Enter valid Pan Card Number.</span>
+        </span>
+        
+      </div>
+      <div class="wrap-input100  rs1-wrap-input100 validate-input" data-validate="Oops! That doesn't look like a valid number" [ngClass]="{ 'error-border':(personalDetailSubmitted || f.custPhone.touched) && f.custPhone.errors }" > <span class="label-input100">Enter Your Mobile Number</span>
+        <input class="input100 contact-no" type="text" formControlName="custPhone" autocomplete="off" maxlength="10" placeholder="Your 10 Digit Mobile Number">
+        
+        <span *ngIf="(personalDetailSubmitted || f.custPhone.touched) && f.custPhone.errors" class="invalid-feedback">
+          <span *ngIf="f.custPhone.errors.required" class="pull-left input-group formerror-msg">Enter Your Mobile Number.</span>
+          <span *ngIf="f.custPhone.errors.pattern" class="pull-left input-group formerror-msg">Enter Valid Mobile Number.</span>
+        </span>
+        
+      </div>
+      <div class="wrap-input100  rs1-wrap-input100 validate-input" data-validate="This is an Invalid email id"[ngClass]="{ 'error-border':(personalDetailSubmitted || f.custEmail.touched) && f.custEmail.errors }" > <span class="label-input100">Enter Your Email ID</span>
+        <input class="input100 email-address" style="text-transform:lowercase !important;" type="text" formControlName="custEmail" placeholder="It Should be Valid" autocomplete="off">
+        
+        <span *ngIf="(personalDetailSubmitted || f.custEmail.touched) && f.custEmail.errors" class="invalid-feedback">
+          <span *ngIf="f.custEmail.errors.required" class="pull-left input-group formerror-msg">Enter Your Email ID.</span>
+          <span *ngIf="f.custEmail.errors.pattern" class="pull-left input-group formerror-msg">Enter Valid Email ID.</span>
+        </span>
+      </div>
+    </div>
+    <div class="container-contact100-form-btn">
+      <button #personalBtn type="submit" class="contact100-form-btn" id="perionalDetailBtn" > <span>Continue to Your Car Detail <i class="fa fa-long-arrow-right m-l-7" aria-hidden="true"></i> </span> 
+      </button>
+    </div>
+    </form>
+  </div>
+  
+  
+  <div class="wrap-contact100" id="car-detail" [ngStyle]="{'display':carDetailTab ? 'block' : 'none' }">
+    <form class="form-horizontal" [formGroup]="carDetailForm" (ngSubmit)="carDetailSubmit()">
+    <div class="contact100-form validate-form"> <span class="contact100-form-title text-left"> Enter Your Bike Detail </span>
+        <div (click)="activepersonalDetail();" class="contact100-form-title text-right back "><i class="fa fa-long-arrow-left m-l-7 pa" aria-hidden="true"></i>Back To Personal Detail</div>
+        <div class="wrap-input100 validate-input input-group regis col-md-12 col-12" [ngClass]="{ 'error-border':(carDetailSubmitted || c.rtoregNumber.touched) && c.rtoregNumber.errors}">	<span class="input-group-addon">{{modifyRtoCode}}</span>  <span class="label-input100" style="padding-left:10px;">Enter Registration Number *</span>
+          
+          <input type="hidden" formControlName="rtoCode" id="RTO">
+          <input class="input100 registration-no" formControlName="rtoregNumber" style="padding-left:10px;" type="text" placeholder="E.g- A1234" autocomplete="off">
+          
+          <span *ngIf="(carDetailSubmitted || c.rtoregNumber.touched) && c.rtoregNumber.errors" class="invalid-feedback">
+            <span *ngIf="c.rtoregNumber.errors.required" class="pull-left input-group registrationnum formerror-msg">Enter Registration Number.</span>
+          </span>
+          
+        </div>
+        <div class="wrap-input100  rs1-wrap-input100 validate-input col-md-12"  [ngClass]="{ 'error-border':(carDetailSubmitted || c.prevPolicyNo.touched) && c.prevPolicyNo.errors}"> <span class="label-input100">Prev. Policy Number</span>
+          
+          <input class="input100 engine-no" type="text" formControlName="prevPolicyNo" placeholder="Prev. Policy Number" autocomplete="off">
+          <span *ngIf="(carDetailSubmitted || c.prevPolicyNo.touched) && c.prevPolicyNo.errors" class="invalid-feedback">
+            <span *ngIf="c.prevPolicyNo.errors.required" class="pull-left input-group formerror-msg">Please Prev. Policy Number</span>
+          </span>
+          
+        </div>
+        <div class="wrap-input100  rs1-wrap-input100 validate-input"  [ngClass]="{ 'error-border':(carDetailSubmitted || c.engineNo.touched) && c.engineNo.errors}"> <span class="label-input100">Car Enginee Number</span>
+          
+          <input class="input100 engine-no" type="text" formControlName="engineNo" placeholder="Last 6 Digits" autocomplete="off">
+          <span *ngIf="(carDetailSubmitted || c.engineNo.touched) && c.engineNo.errors" class="invalid-feedback">
+            <span *ngIf="c.engineNo.errors.required" class="pull-left input-group formerror-msg">Enter Enginee Number</span>
+            <span *ngIf="c.engineNo.errors.minlength" class="pull-left input-group formerror-msg">Enter Valid Enginee Number</span>
+          </span>
+          
+        </div>
+        <div class="wrap-input100  rs1-wrap-input100 validate-input" [ngClass]="{ 'error-border':(carDetailSubmitted || c.chassisNo.touched) && c.chassisNo.errors}"> <span class="label-input100">Car Chassis Number</span>
+          
+          <input class="input100 chassis-no" type="text" formControlName="chassisNo" placeholder="Last 6 Digits" autocomplete="off">
+          <span *ngIf="(carDetailSubmitted || c.chassisNo.touched) && c.chassisNo.errors" class="invalid-feedback">
+            <span *ngIf="c.chassisNo.errors.required" class="pull-left input-group formerror-msg">Enter Chassis Number</span>
+            <span *ngIf="c.chassisNo.errors.minlength" class="pull-left input-group formerror-msg">Enter Valid Chassis Number</span>
+          </span>
+          
+        </div>
+        <div class="wrap-input100 validate-input" style="border:0; margin-bottom: 0;">
+          <div class="wrap-contact100-form-radio"> <span class="label-input100">Is Your Car On Loan?</span>
+            <div class="pull-left" style="clear:both;">
+              <div class="contact100-form-radio m-t-15 pull-left">
+                <input class="input-radio100" id="radio1" type="radio" autocomplete="off" name="loan_type" (click)="loanClick(1);">
+                <label class="label-radio100" for="radio1">Yes</label>
+              </div>
+              <div class="contact100-form-radio pull-left">
+                <input class="input-radio100" id="radio2" type="radio" autocomplete="off" name="loan_type" checked="checked" (click)="loanClick(0);">
+                <label class="label-radio100" for="radio2">No</label>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+        <div class="col-md-12 col-xs-12 no-padding" style="margin-top: 25px; display: block;" *ngIf="isLoan" >
+			<div class="wrap-input col-md-10 validate-input" [ngClass]="{ 'error-border':(carDetailSubmitted || c.financierName.touched) && c.financierName.errors && isLoan==true}"> 
+				
+				<span class="label-input100">Name Of Financier</span>
+			
+				<input type="text" class="input100" placeholder="Who is your car hypothecated to on RC?" formControlName="financierName"  autocomplete="off">
+			
+				<span *ngIf="(carDetailSubmitted || c.financierName.touched) && c.financierName.errors && isLoan==true" class="invalid-feedback">
+					<span *ngIf="c.financierName.errors.required" class="pull-left input-group formerror-msg">Please Enter Name Of Financier</span>
+				</span>
+			</div>
+		  
+			<div class="wrap-input col-md-10 validate-input" [ngClass]="{ 'error-border':(carDetailSubmitted || c.financierBranchName.touched) && c.financierBranchName.errors && isLoan}"> 
+				
+				<span class="label-input100">Branch Name</span>
+				<input type="text" formControlName="financierBranchName" class="input100" placeholder="City where loan was taken ?" autocomplete="off">
+				
+				<span *ngIf="(carDetailSubmitted || c.financierBranchName.touched) && c.financierBranchName.errors && isLoan" class="invalid-feedback">
+					<span *ngIf="c.financierBranchName.errors.required" class="pull-left input-group formerror-msg">Please Enter Branch Name </span>
+				</span>
+			
+			</div>
+        </div>
+      </div>
+      <div class="container-contact100-form-btn" >
+        <button #carBtn type="submit" class="contact100-form-btn"> <span>Continue to Address Detail <i class="fa fa-long-arrow-right m-l-7" aria-hidden="true" ></i> </span> 
+        </button>
+      </div>
+    </form>
+  </div>
+  <div class="wrap-contact100" id="address-detail" [ngStyle]="{'display':addressDetailTab ? 'block' : 'none' }" >
+    <form class="form-horizontal" [formGroup]="addressDetailForm" (ngSubmit)="addressDetailSubmit()">
+    <div class="contact100-form validate-form"> <span class="contact100-form-title text-left"> Enter Your Address Detail </span>
+      
+      <div (click)="activecarDetail();" class="contact100-form-title text-right back "><i class="fa fa-long-arrow-left m-l-7 pa" aria-hidden="true"></i>Back To Bike Detail</div>
+      <div class="wrap-input100 validate-input bg0 rs1-alert-validate" data-validate="Address should be minimum 10 characters" [ngClass]="{ 'error-border':(addressDetailSubmitted || a.custAddress.touched) && a.custAddress.errors}"> <span class="label-input100">Communication Address</span>
+        
+        <textarea class="input100" formControlName="custAddress" placeholder="Enter your current address for farther communication"></textarea>
+        <span *ngIf="(addressDetailSubmitted || a.custAddress.touched) && a.custAddress.errors" class="invalid-feedback">
+          <span *ngIf="a.custAddress.errors.required" class="pull-left input-group communication formerror-msg">Enter Communication Address</span>
+        </span>
+      
+      </div>
+      <div class="wrap-input100 validate-input rs1-wrap-input100 input100-select select2-search state-list-desktop" [ngClass]="{ 'error-border':(addressDetailSubmitted || a.custState.touched) && a.custState.errors}"> <span class="label-input100">Select Your State </span>
+        <input type="hidden" formControlName="custStateLabel">
+        <select class="custom-select" formControlName="custState" (change)="getCity($event)">
+          <option value="">Please chooses</option>
+          <option *ngFor="let item of stateJson" value="{{item.id}}">{{item.sname}}</option>
+        </select>
+        <span *ngIf="(addressDetailSubmitted || a.custState.touched) && a.custState.errors" class="invalid-feedback">
+          <span *ngIf="a.custState.errors.required" class="pull-left input-group formerror-msg">Select your state</span>
+        </span>
+      </div>
+      
+      <div class="wrap-input100 rs1-wrap-input100 input100-select select2-search city-list-desktop" [ngClass]="{ 'error-border':(addressDetailSubmitted || a.custCity.touched) && a.custCity.errors}"> <span class="label-input100">Select Your City </span>
+        <input type="hidden" formControlName="custCityLabel">
+        <select class="custom-select" formControlName="custCity" (change)="cityChanged($event)">
+          <option value="">Please chooses</option>
+          <option *ngFor="let item of filtercityJson" value="{{item.city_id}}">{{item.city_name}}</option>
+        </select>
+        <span *ngIf="(addressDetailSubmitted || a.custCity.touched) && a.custCity.errors" class="invalid-feedback">
+          <span *ngIf="a.custCity.errors.required" class="pull-left input-group formerror-msg">Select your city</span>
+        </span>
+      </div>
+      
+      <div class="wrap-input100 rs1-wrap-input100 validate-input" data-validate="Pincode in Invalid" [ngClass]="{ 'error-border':(addressDetailSubmitted || a.custPincode.touched) && a.custPincode.errors}"> <span class="label-input100">Enter Your Pincode </span>
+        <input class="input100" type="text" formControlName="custPincode" placeholder="Should be 5 Digits" autocomplete="off">
+        <span *ngIf="(addressDetailSubmitted || a.custPincode.touched) && a.custPincode.errors" class="invalid-feedback">
+          <span *ngIf="a.custPincode.errors.required" class="pull-left input-group formerror-msg">Enter Your Pincode</span>
+          <span *ngIf="a.custPincode.errors.pattern" class="pull-left input-group formerror-msg">Enter valid Pincode</span>
+        </span>
+      </div>
+    </div>
+    <div class="container-contact100-form-btn">
+      <button class="contact100-form-btn" type="submit" id="addressDetailBtn"> <span>Continue To Nominee Details <i class="fa fa-long-arrow-right m-l-7" aria-hidden="true"></i> </span> 
+      </button>
+    </div>
+    </form>
+  </div>
+  <div class="wrap-contact100" id="nominee-detail" [ngStyle]="{'display':nomineeDetailTab ? 'block' : 'none' }" >
+    <form class="form-horizontal" [formGroup]="nomineeDetailForm" (ngSubmit)="nomineeDetailSubmit()">
+    <div class="contact100-form validate-form"> <span class="contact100-form-title text-left"> Enter Your Nominee Detail </span>
+      
+      
+      <div class="contact100-form-title text-right back " (click)="activeaddressDetail();"><i class="fa fa-long-arrow-left m-l-7 pa" aria-hidden="true"></i>Back To Address Detail</div>
+      
+      <div class="wrap-input100 validate-input regis name" data-validate="Please Type Your Full Name"  [ngClass]="{ 'error-border':(nomineeDetailSubmitted || n.nomineeName.touched) && n.nomineeName.errors}">
+        <div class="col-md-2 col-3 pull-left no-padding">
+          <select class="custom-select">
+            <option>Mr.</option>
+            <option>Mrs.</option>
+            <option>Ms.</option>
+          </select>
+        </div> <span class="label-input100" style="padding-left:10px;">Nominee name </span>
+        <span *ngIf="(nomineeDetailSubmitted || n.nomineeName.touched) && n.nomineeName.errors" class="invalid-feedback">
+          <span *ngIf="n.nomineeName.errors.required" class="pull-left input-group nominename formerror-msg">Enter Your nominee full Name.</span>
+        </span>
+        
+        <input class="input100 full-name" type="text" formControlName="nomineeName" placeholder="Enter Full name of nominee" autocomplete="off">
+        
+      </div>
+      
+      
+      <div class="wrap-input100  rs1-wrap-input100 validate-input" data-validate="This is an Invalid email id" >
+        <div class="col-md-12 col-12 pull-left no-padding">	<span class="label-input100 pull-left input-group">Choose Relationship</span>
+          <select formControlName="nomineeRelation" class="custom-select">
+            <option>Father</option>
+            <option>Mother</option>
+            <option>Daughter</option>
+            <option>Son</option>
+            <option>Spouse</option>
+          </select>
+        </div>
+      </div>
+      <div class="wrap-input100  rs1-wrap-input100 validate-input" data-validate="" [ngClass]="{ 'error-border':(nomineeDetailSubmitted || n.nomineeAge.touched) && n.nomineeAge.errors}"> <span class="label-input100">Age</span>
+        <input class="input100 nominee-age" type="text" formControlName="nomineeAge" placeholder="It Should be Valid" autocomplete="off">
+        <span *ngIf="(nomineeDetailSubmitted || n.nomineeAge.touched) && n.nomineeAge.errors" class="invalid-feedback">
+          <span *ngIf="n.nomineeAge.errors.required" class="pull-left input-group formerror-msg">Enter nominee age</span>
+        </span>
+      </div>
+    </div>
+    <div class="container-contact100-form-btn">
+      <button type="submit" class="contact100-form-btn" id="nomineeDetailBtn"> <span>Submit Proposal <i class="fa fa-long-arrow-right m-l-7" aria-hidden="true"></i> </span> 
+      </button>
+    </div>
+    </form>
+  </div>
+  <div class="container-fluid">
+  <footer class="footer" id="footer_area">
+    <div class="footer_bottom">
+      <div class="container">
+        <p class="text_btnftr">©Copyright 2014 - till now | <a href="https://www.gibl.in" style="color: rgb(108, 108, 108) ! important;
+              text-decoration: underline;">www.gibl.in</a> | All Rights Reserved | Insurance is the subject matter of solicitation.
+          <br>IRDA License Code No : DB 482/10 Dated 27-05-2016 valid till 26-05-2019, Direct(Non-Life) | Principal Officer : Mr. Sahid Ali | Ph: 033 - 66074257
+          <br>
+        </p>
+        <p class="text_btnftr_new">Regd. &amp; Corp. Office : GreenLife Insurance Broking Pvt. Ltd., A-4/B, 1st Floor, Rishi Tech Park, New Town, Kolkata-700156, West Bengal, India</p>
+        <p class="text_btnftr_new">Designed &amp; Developed By : e-Celtic</p>
+      </div>
+    </div>
+  
+  </footer>
+  </div>

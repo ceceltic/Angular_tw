@@ -1,0 +1,601 @@
+<div class="d-flex" id="wrapper" >
+
+    <!-- Sidebar -->
+    <div class="bg-light border-right col-md-2" id="sidebar-wrapper">
+           
+        <div class="sidebar-heading hidden-xs-down text-center"><a [routerLink]="['/']"><img src="assets/quotecompare/images/logo.png"></a></div>
+        
+        <form id="quoteModifyLeftForm" [formGroup]="quoteModifyLeftForm" (ngSubmit)="quoteModifyLeftSubmit()">
+                
+            <ngb-accordion #acc="ngbAccordion" activeIds="config-panel-one" *ngIf="showquoteData" >
+                   
+                <ngb-panel id="config-panel-one">
+                    <ng-template #tipContent>IDV stands for the Insured Declared Value which is the maximum Sum Insured. IDV is basically the current market value of the vehicle you want to insure. If your vehicle suffers total loss, you will get compensation on the basis of the IDV. It’s advisable to use recommended IDV for the best price and coverage. IDV decreases every year due to depreciation.</ng-template>
+                    <ng-template ngbPanelTitle >
+                        <span [ngbTooltip]="tipContent" placement="right">Calculate your IDV</span>
+                        </ng-template>
+                    <ng-template ngbPanelContent>
+                          
+                        <div class="custom-control custom-radio col-md-12 col-6 float-left no-padding">
+                            <label class="custom-control custom-radio">
+								<input class="custom-control-input" type="radio" formControlName="customIDV" value="N" [checked]="true" (click)="showDivCustomIDV(false)">
+								<span class="custom-control-label">Lowest Possible IDV</span>
+							</label>
+                        </div>
+                        <div class="custom-control custom-radio col-md-12 col-6 float-left no-padding" >
+                            <label class="custom-control custom-radio">
+								<input class="custom-control-input" type="radio" formControlName="customIDV" value="Y" (click)="showDivCustomIDV(true)">
+								<span class="custom-control-label">Set Your Own IDV</span>
+							</label>
+                        </div>
+                        
+
+                        <div class="col-md-12" style="margin-bottom: 10px;padding-left:0;" *ngIf="showCustomIDV">
+                            <small>{{minIDV | currency:'Rs.' : 'symbol' : '1.0'}} and {{maxIDV | currency:'Rs.' : 'symbol' : '1.0'}}</small>
+                            <input type="text" formControlName="modifyIDV" class="form-control" placeholder="" value="" required="">
+                        </div>
+						<span *ngIf="!validQuoteModifyLeft" style="font-size: 12px;color: red;">Please enter IDV between range.</span>
+                    </ng-template>
+                </ngb-panel>
+            </ngb-accordion>
+            <ngb-accordion #acc="ngbAccordion" activeIds="config-panel-two" *ngIf="showquoteData" >
+                <ngb-panel id="config-panel-two" title="Tell us about your last claim" *ngIf="quoteJson.form_premium_type=='1'">
+                        <ng-template ngbPanelContent>
+                        <label style="font-size: 14px;"> Claim in Previous Policy?</label>
+                        <div class="custom-control custom-radio col-md-12 row col-6 float-left">
+							<label class="custom-control custom-radio col-md-6">
+								<input class="custom-control-input" type="radio" [checked]="quoteJson.last_claimed_year!=0" formControlName="isClaimed" value="1">
+								<span class="custom-control-label">Yes</span>
+							</label>
+							<label class="custom-control custom-radio col-md-6">
+								<input class="custom-control-input" type="radio" [checked]="quoteJson.last_claimed_year==0" formControlName="isClaimed" value="0">
+								<span class="custom-control-label">No</span>
+							</label>
+                        </div>
+                    </ng-template>
+                </ngb-panel>
+            </ngb-accordion>
+            <ngb-accordion #acc="ngbAccordion" activeIds="config-panel-three" *ngIf="showquoteData"  >
+                <ngb-panel id="config-panel-three" title="How much is your NCB" *ngIf="quoteJson.form_premium_type=='1'">
+                        <ng-template ngbPanelContent>
+                        <div class="col-md-12 leftdrop" >
+                            <label style="font-size: 12px;padding-top: 5px;padding-right: 2px;">Previous year NCB</label>
+							<select class="form-control col-md-5 float-right" formControlName="modifyNCB">
+								<option value="0" selected="">0</option>
+								<option value="20">20</option>
+								<option value="25">25</option>
+								<option value="35">35</option>
+								<option value="45">45</option>
+								<option value="50">50</option>
+							</select>
+
+                        </div>
+                    </ng-template>
+                </ngb-panel>
+            </ngb-accordion>
+            <ngb-accordion #acc="ngbAccordion" activeIds="config-panel-four" *ngIf="showquoteData"  >
+                <ngb-panel id="config-panel-four" title="Mention the discount">
+                        <ng-template ngbPanelContent>
+                        <div class="col-md-12 vd leftdrop">
+                            <label> Voluntary Discount</label>
+							<select class="form-control col-md-5 float-right" formControlName="modifyDiscount">
+								<option value="0" selected>0</option>
+								<option value="500">500</option>
+								<option value="750">750</option>
+								<option value="1000">1000</option>
+								<option value="1500">1500</option>
+								<option value="3000">3000</option>
+							</select>
+						</div>
+                        
+                    </ng-template>
+                </ngb-panel>
+            </ngb-accordion>
+            <button type="submit" class="btn btn-outline-secondary pull-right" style="font-size:15px !important; font-weight:bold; margin-top:5px; margin-right:24px;"><i class="fa fa-edit"></i>Recalculate</button>
+        </form>
+    </div>
+	<ng-template #leftPanelModal let-modal>
+        <span class="close-gb" aria-hidden="true" (click)="modal.dismiss('Cross click')">&times;</span>
+        <div class="modal-body">
+            <form id="quoteModifyLeftForm" [formGroup]="quoteModifyLeftForm" (ngSubmit)="quoteModifyLeftSubmit();modal.dismiss('Cross click')">
+                <div class="custom-control custom-radio col-md-12 col-6 float-left no-padding">
+					<label class="custom-control custom-radio">
+						<input class="custom-control-input" type="radio" formControlName="customIDV" value="N" [checked]="true" (click)="showDivCustomIDV(false)">
+						<span class="custom-control-label">Lowest Possible IDV</span>
+					</label>
+				</div>
+				<div class="custom-control custom-radio col-md-12 col-6 float-left no-padding" >
+					<label class="custom-control custom-radio">
+						<input class="custom-control-input" type="radio" formControlName="customIDV" value="Y" (click)="showDivCustomIDV(true)">
+						<span class="custom-control-label">Set Your Own IDV</span>
+					</label>
+				</div>
+				<div class="col-md-12" style="margin-bottom: 10px;padding-left:0;float:left;" *ngIf="showCustomIDV">
+					<small>The maximum value you will receive in case of total damage or theft.</small>
+					<br>
+					<label for="firstName">IDV between<small> ({{minIDV}} - {{maxIDV}}) </small></label>
+					<input type="text" formControlName="modifyIDV" class="form-control" placeholder="" value="" required="">
+                    
+                </div>
+               
+                <div class="custom-control custom-radio row col-xs-12 float-left ">
+                        <label class="col-xs-12" style="font-size: 14px;">Cliam in Previous Policy?</label>
+					<label class="custom-control custom-radio col-xs-3">
+						<input class="custom-control-input" type="radio" [checked]="quoteJson.last_claimed_year!=0" formControlName="isClaimed" value="1">
+						<span class="custom-control-label">Yes</span>
+					</label>
+					<label class="custom-control custom-radio col-xs-3">
+						<input class="custom-control-input" type="radio" [checked]="quoteJson.last_claimed_year==0" formControlName="isClaimed" value="0">
+						<span class="custom-control-label">No</span>
+					</label>
+				</div>
+	
+                <div class="col-md-12 leftdrop" *ngIf="quoteJson.form_premium_type=='1'">
+					<label style="font-size: 12px;padding-top: 5px;padding-right: 2px;" >Previous year NCB</label>
+					<select class="form-control col-md-5 float-right" formControlName="modifyNCB">
+						<option value="0" selected="">0</option>
+						<option value="20">20</option>
+						<option value="25">25</option>
+						<option value="35">35</option>
+						<option value="45">45</option>
+						<option value="50">50</option>
+					</select>
+
+				</div>
+
+				<div class="col-md-12 vd leftdrop">
+					<label> Voluntary Discount</label>
+					<select class="form-control col-md-5 float-right" formControlName="modifyDiscount">
+						<option value="0" selected>0</option>
+						<option value="500">500</option>
+						<option value="750">750</option>
+						<option value="1000">1000</option>
+						<option value="1500">1500</option>
+						<option value="3000">3000</option>
+					</select>
+				</div>
+				<button  type="submit" class="btn btn-outline-secondary pull-right" style="font-size:15px !important; font-weight:bold; margin-top:5px; ">Recalculate</button>
+            </form>
+        </div>
+    </ng-template>
+    <!-- /#sidebar-wrapper -->
+
+    <!-- Page Content -->
+    <div id="page-content-wrapper" class="col-md-10 no-padding">
+
+        <div class="container-fluid" style="background: #fff; ">
+            <ng-template #content let-modal>
+                <div id="modal-edit-date" class="modal-content  modal-xs">
+                    <div class="modal-header">
+                        <h1 class="modal-title" id="modal-basic-title" style="font-size: 18px !important;"><b>Edit Policy Details</b></h1>
+                        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+					<form id="quoteModifyForm" [formGroup]="quoteModifyForm" (ngSubmit)="quoteModifySubmit();modal.close('Save click');">
+						<div class="modal-body" style="padding-left:15px !important;">
+							<div class="form-group">
+								<div class="row">
+									<label class="col-md-6" for="dateOfBirth">Registration Date of your Car:
+										</label>
+									<div class="input-group col-md-6 ">
+										<input id="dateOfBirth" class="form-control col-md-9  col-5 float-left" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker #dp="ngbDatepicker" formControlName="modifyRegistrationDate" (click)="dp.toggle()">
+										<div class="input-group-append col-md-3  col-4 float-right no-padding ">
+											<button class="btn btn-outline-secondary fa fa-calendar" (click)="dp.toggle()" type="button"></button>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="row">
+									<label class="col-md-6" for="dateOfBirth">Manufacturing Month and Year:</label>
+									<div class="input-group col-md-6 col-12 ">
+										<select style="margin-left: 0;" class="custom-select col-3 col-md-4 " formControlName="modifyManufacDateMM">
+											<option value='1'>Janaury</option>
+											<option value='2'>February</option>
+											<option value='3'>March</option>
+											<option value='4'>April</option>
+											<option value='5'>May</option>
+											<option value='6'>June</option>
+											<option value='7'>July</option>
+											<option value='8'>August</option>
+											<option value='9'>September</option>
+											<option value='10'>October</option>
+											<option value='11'>November</option>
+											<option value='12'>December</option>
+										</select>
+										<select class="custom-select col-4 col-md-4" formControlName="modifyManufacDateYY">
+											<option *ngFor="let year of maufacYear">{{year}}</option>
+										</select>
+										
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="row">
+									<label class="col-md-6" for="dateOfBirth">Expiry Date of your Previous Policy:</label>
+									<div class="input-group col-md-6">
+										<input id="dateOfBirth" class="form-control col-md-9 col-5 float-left" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker #dp3="ngbDatepicker" formControlName="modifyExpiryDate" (click)="dp3.toggle()">
+										<div class="input-group-append col-md-3 col-2 float-right no-padding ">
+											<button class="btn btn-outline-secondary fa fa-calendar" (click)="dp3.toggle()" type="button"></button>
+										</div>
+									</div>
+								</div>
+							</div>
+                        </div>
+						<div class="modal-footer">
+							<button type="submit" class="btn btn-outline-secondary features call-me-back" >Update Quotes</button>
+                        </div>
+                    </form>
+                </div>
+            </ng-template>
+            <div class="row">
+
+                <div class="col-md-12 pull-left only-mob" *ngIf="showquoteData">
+                    <div class="panel row">
+                            <a [routerLink]="['/']" class="col-xs-6 hidden-lg-down"><img src="assets/quote/images/logo.png" class="img-fluid nav-brand" width="80"/></a>
+                            <span class="float-right col-xs-6 text-right hidden-lg-down"><a href="https://www.gibl.in/UI/Pages/ContactUs.aspx" class="dropbtn" style="color: white;font-size: 15px;padding-top: 13px;padding-left:10px;"><i class="fa fa-user"></i>Support</a></span>
+                        <div class="pull-left col-md-4 col-xs-12">
+
+                              <div class="bike-container col-xs-12">
+                                        <span class="hidden-lg-down" (click)="isCollapsed = !isCollapsed"
+                                                [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample">
+                                                {{quoteJson.bike_fullname}}
+                                                <i class="fa fa-angle-down pull-right"></i>
+                                        </span>
+                                    </div>
+                                      <div id="collapseExample" [ngbCollapse]="isCollapsed">
+                                        <div>
+                                          <div>
+                                                <div>
+                                                        
+                                                        <span style="font-size:12px;">{{quoteJson.rto_details.rto_code}} {{quoteJson.rto_details.city_name}}, {{quoteJson.rto_details.sname}}</span>
+                                                        <span class="hidden-xs-down" style="font-size:13px;font-weight:normal;"></span>
+                                                    </div>
+                                                    <h2 class="col-md-12 col-xs-12">Not Your Bike?<a class="text-link-n"   [routerLink]="['/']"><i class="fa fa-edit"></i>Change Bike Detail</a></h2>
+                                <h2 class="col-md-12 col-xs-12 hidden-lg-down">Policy Not expired
+                                <a [ngStyle]="{'display':isRenewal==false ? 'none' : '' }" class="text-link-n hidden-lg-down"(click)="open(content)"><i class="fa fa-edit"></i>Edit Dates</a>  </h2>
+                            
+                                          </div>
+                                        </div>
+                                      </div>
+
+                           
+                                      <h2 class="col-md-12 col-xs-12 hidden-xs-down">Bike Details <a class="text-link-n"   [routerLink]="['/']"><i class="fa fa-edit"></i>Change Bike Detail</a></h2>
+                            <div class="hidden-xs-down" style="padding-left:5px !important;">
+                            <span style="font-size:13px;font-weight: bold;">{{quoteJson.bike_fullname}}</span><br>
+                            <span style="font-size:13px;font-weight: bold;">{{quoteJson.rto_details.rto_code}} {{quoteJson.rto_details.city_name}}, {{quoteJson.rto_details.sname}}</span>
+                            <span class="hidden-xs-down" style="font-size:13px;font-weight:normal;"></span>
+                        </div>
+                        </div>
+
+                     
+
+                        <div class="pull-left col-md-5 hidden-xs-down" [ngStyle]="{'display':isRenewal==false ? 'none' : '' }" style="padding-left:5px !important;" >
+                            <h2 class="col-md-12 col-xs-12">Manufacture Details <a class="text-link-n"(click)="open(content)"><i class="fa fa-edit"></i>Edit Detail</a> </h2>
+                            <span class="hidden-xs-down" style="font-size:13px;font-weight: bold;">Policy Expiry Date: {{quoteJson.policy_expiry_date.day}} {{months[quoteJson.policy_expiry_date.month]}}, {{quoteJson.policy_expiry_date.year}} | </span>  <span class=" hidden-xs-down" style="font-size:13px;font-weight: bold;">Registration Date: {{quoteJson.registration_date.day}} {{months[quoteJson.registration_date.month]}}, {{quoteJson.registration_date.year}}</span>
+                            <br><span  class="hidden-xs-down"  style="font-size:13px;font-weight: bold;">Manufacturing Month & Year: {{months[quoteJson.manufacture_date.month]}} | {{quoteJson.manufacture_date.year}}</span>
+
+                        </div>
+
+                        <div class="panel-a col-md-3 col-12 row foot-panel">
+                            <div class="col-6 col-md-12 col-sm-6 no-padding"  style="padding-left:5px !important;" >
+                                <h2 (click)="open(cover)">Additional Coverage <a class="text-link-n"><i class="fa fa-plus hidden-lg-down"></i> </a>  </h2>
+                                <small style="font-weight:bold;" *ngIf="!quoteJson.zero_dep && !quoteJson.pa_owner"></small>
+                                <small style="font-weight:bold;" *ngIf="quoteJson.zero_dep"></small><span *ngIf="quoteJson.zero_dep"></span>
+                                <small style="font-weight:bold;" *ngIf="quoteJson.pa_owner"></small>
+                                
+								<div class="custom-control custom-checkbox col-md-6 col-6 float-left hidden-xs-down" style="padding:5px 30px !important;">
+                                    <input [checked]="quoteJson.zero_dep" #zeroDepBox type="checkbox" (change)="zeroDepChange($event)" class="custom-control-input" id="zerodep">
+									
+									<ng-template #tipContentZD>Zero depreciation is also known as Nil depreciation or Bumper to Bumper cover. It is an add-on and offers complete cover leaving out the depreciation factor from the coverage. Zero depreciation offers 100% coverage for all rubber, fibre and metal parts without deduction of depreciation.</ng-template>
+									
+                                    <label [ngbTooltip]="tipContentZD" class="custom-control-label" for="zerodep">Zero Dep</label>
+                                </div>
+                                <div class="custom-control custom-checkbox col-md-6 col-6 float-left hidden-xs-down" style="padding:5px 19px !important;">
+                                    <input [checked]="quoteJson.pa_owner" #paOwnerBox type="checkbox" (change)="paOwnerChange($event)" class="custom-control-input" id="paowner">
+									
+									<ng-template #tipContentPA> Please opt this Compulsory Personal Accident Cover, only if you have valid driving license. You can skip this cover, if you have personal accident policy of Rs 15 Lakhs or have another motor insurance policy with "Compulsory Personal Accident Cover" of Rs 15 Lakhs sum insured. This is as per IRDAI mandate.</ng-template>
+									
+                                    <label [ngbTooltip]="tipContentPA" class="custom-control-label" for="paowner">PA Owner Driver</label>
+                                </div>
+                            </div>
+                            <ng-template #cover let-modal>
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="modal-basic-title">Coverage</h5>
+                                    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                
+                                <div class="modal-body">
+
+                                    <div class="custom-control custom-checkbox col-md-12 col-6 float-left">
+                                        <input [checked]="quoteJson.zero_dep" #zeroDepBox type="checkbox" (change)="zeroDepChange($event)" class="custom-control-input" id="zerodep">
+                                        <label class="custom-control-label" for="zerodep">Zero Dep</label>
+                                    </div>
+                                    <div class="custom-control custom-checkbox col-md-12 col-6 float-left">
+                                        <input [checked]="quoteJson.pa_owner" #paOwnerBox type="checkbox" (change)="paOwnerChange($event)" class="custom-control-input" id="paowner">
+                                        <label class="custom-control-label" for="paowner">PA Owner Driver</label>
+                                    </div>
+
+                                </div>
+
+                            </ng-template>
+                            <div class="col-md-12 col-6 col-sm-6 pull-right no-padding modify">
+                                <div class="pull-left hidden-lg-down  pull-right ">
+                                    <h2 (click)="open(leftPanelModal)">Change IDV</h2>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-md-8 col-xs-6 pull-right">
+                    <span class="plans" id="lblNoOfPremiums">{{countResultPremium}}</span>&nbsp;Plans Found <span style="font-size: 15px;color: #a5a5a5;padding-top:5px;"></span>
+
+                </div>
+
+                <div class="col-md-4 col-xs-6 text-right pull-right">
+                    <ng-template #share let-modal>
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="modal-basic-title">Share This Plans</h4>
+                            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body" style="padding:31px !important;">
+							<form *ngIf="!shareFormEmailMsg" [formGroup]="shareFormEmail" (ngSubmit)="shareEmailFormSubmit()" >
+								<div class="form-group">
+								<input type="hidden" formControlName="QuoteUrl" class="form-control col-md-9 col-xs-8 float-left" id="QuoteUrl" placeholder="Refferal Link" readonly>
+								<input type="email" formControlName="refEmailAddress" class="form-control col-md-8 col-xs-8 float-left" id="refEmailAddress" placeholder="Enter email address">
+								<button class="btn buy-now btn-sm hvr-grow-shadow col-md-4" style=" background: #05b787 !important;font-size: 17px !important; border:0!important;padding:6px 18px;" [disabled]="shareFormEmail.invalid" [ngStyle]="shareFormEmail.invalid && {'cursor':'not-allowed'}" ><i class="fa fa-send"></i>Send Email</button>
+								</div>
+							</form>
+							<div *ngIf="shareFormEmailMsg" class="col-md-12 col-12 " style="margin-top:10px;"> 
+								<p style="color: #034ea2;text-align: center;font-weight: bold;">Thank you for share you plan via Email!</p>
+							</div>
+							
+							<form *ngIf="!shareFormSMSMsg" [formGroup]="shareFormSMS" (ngSubmit)="shareSMSFormSubmit()">
+								<div class="form-group">
+								<input type="hidden" formControlName="QuoteUrl" class="form-control col-md-9 col-xs-8 float-left" id="QuoteUrl" placeholder="Refferal Link" readonly>
+								<input type="text" formControlName="refMobileNo" class="form-control col-md-8 col-xs-8 float-left" id="refMobileNo" placeholder="Enter Mobile No">
+								<button class="btn buy-now btn-sm hvr-grow-shadow col-md-4" style=" background: #05b787 !important;font-size: 17px !important; border:0!important;padding:6px 18px;" [disabled]="shareFormSMS.invalid" [ngStyle]="shareFormSMS.invalid && {'cursor':'not-allowed'}"><i class="fa fa-send"></i>Send SMS</button>
+								</div>
+							</form>
+							<div *ngIf="shareFormSMSMsg" class="col-md-12 col-12 " style="margin-top:10px;"> 
+								<p style="color: #034ea2;text-align: center;font-weight: bold;">Thank you for share you plan via SMS!</p>
+							</div>
+							
+							<div class="form-group">
+							<input type="text"  class="form-control col-md-8 col-xs-8 float-left" id="QuoteUrl" value="{{quoteUrl}}" placeholder="Refferal Link" #refferalLink readonly>
+							<button class="btn buy-now btn-sm hvr-grow-shadow col-md-4" style=" background: #05b787 !important;font-size: 17px !important; border:0!important;padding:6px 18px;" (click)="copyToClipboard(refferalLink);"><i class="fa fa-copy"></i>
+							<span *ngIf="!shareFormCopyMsg">Copy</span><span *ngIf="shareFormCopyMsg">Copied</span>
+							</button>
+							</div>
+                        </div>
+                        
+                    </ng-template>
+
+                    <button class="btn btn-outline-secondary features" (click)="generateLink(); open(share);"><i class="fa fa-share"></i>Share Plans </button>
+
+                </div>
+            </div>
+            <div *ngIf="!showPremiumData" id="registration-loader" style="text-align:center"><img src="assets/quote/images/load.gif"></div>
+            <!----------------------------------------------------Premium List------------------------------------------------------------->
+			<div class="row list-bg" *ngFor="let premiumItem of premiumJson;let index = index">
+                <div class="col-md-2 col-xs-4 text-center no-padding">
+                    <div class="zerodep">Your Insurer</div>
+                    <img class="company_img" src="assets/company_logo/{{premiumItem[0].COMPANY_LOGO}}">
+                </div>
+                <div class="col-md-3 col-xs-8 addon" style="font-size: 12px; color: #000;">
+                   
+                    <div class="row "  style="margin-bottom:10px; ">
+                        <div class="col-md-7 col-xs-12 no-padding">
+                            <ng-template #tipContent><div  *ngFor="let item of premiumItem"><button class="idv" *ngIf="item.IDV!='0'">{{item.PREMIUM_YEAR}}<span *ngIf="item.PREMIUM_YEAR=='1'">st</span><span *ngIf="item.PREMIUM_YEAR=='2'">nd</span><span *ngIf="item.PREMIUM_YEAR=='3'">rd</span> Year IDV {{item.IDV | currency:'Rs.' : 'symbol' : '1.0'}}</button></div></ng-template>
+                            <div  class="" [ngbTooltip]="tipContent">
+                                <span>IDV : {{premiumItem[0].IDV | currency:'Rs.' : 'symbol' : '1.0'}}<i class="fa fa-angle-down"></i></span>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-5  no-padding" *ngIf="quoteJson.form_premium_type=='1'" style="display:none;">
+						<span>NCB<span style="color: #ccc;"> : </span><span class="pull-left"><b>{{premiumItem[0].NUM_NCB_PERCENT}}%</b></span></span>
+                        </div>
+                        <div class="col-md-12 row col-xs-12 text-left zero-dep-sec" style="font-size:12px;">
+                        <div *ngIf="quoteJson.zero_dep" class="col-md-6 col-xs-12  no-padding" style="padding-top:5px!important;" >Zero Dep : 
+                                
+								<span class="pull-left" *ngIf="premiumItem[0].NUM_ZERO_DEPT_PREM=='Not Available'"><span class="no"></span></span>
+                                
+								<span class="pull-left" *ngIf="premiumItem[0].NUM_ZERO_DEPT_PREM!='Not Available'"><span class="yes"></span></span>
+                        </div>
+						
+                        <div class="col-md-6 col-xs-12 pa no-padding " style="padding-top:5px!important;" *ngIf="quoteJson.pa_owner">PA Cover : 
+						<span class="" *ngIf="premiumItem[0].NUM_PA_TO_OWNER_DRIVER=='Not Available'"><span class="no"></span></span>
+						<span class="" *ngIf="premiumItem[0].NUM_PA_TO_OWNER_DRIVER!='Not Available'"><span class="yes"></span></span></div>
+						
+                    </div>
+
+                        
+                    </div>
+
+                </div>
+            
+                    <div class="col-md-6 row col-xs-12 margin-only" >     
+                <div class="col-md-4  col-xs-4 text-center price-col" *ngFor="let item of premiumItem">
+                    <!--<div class="zerodep"><span>Zero Dep:</span><abbr> Rs.{{item.NUM_ZERO_DEPT_PREM}}</abbr></div>-->
+                    <strong>{{item.premium_year_text}}</strong>
+
+                    <a [style.pointer-events]="item.TOTAL_PREMIUM_TXT=='NA' ?'none':'auto'" [ngClass]="item.TOTAL_PREMIUM_TXT=='NA' ? 'btn buy-now btn-sm1' : 'btn buy-now btn-sm hvr-grow-shadow'" (click)="premiumTapped('1',item);">
+					
+					<span *ngIf="item.TOTAL_PREMIUM_TXT!='NA'" class="finalpremium"><small>Buy For </small>{{item.NET_PREMIUM | currency:'Rs.' : 'symbol' : '1.0'}}</span>
+					<span *ngIf="item.TOTAL_PREMIUM_TXT=='NA'" class="finalpremium">{{item.TOTAL_PREMIUM_TXT}}</span>
+					
+					</a>
+
+                    <span class="pull-left pb col-xs-12 hidden-xs-down " *ngIf="item.OFFER_AMOUNT!='0'">
+					<small *ngIf="quoteJson.form_premium_type=='1'" style="display:inline-block; font-size: 11px;">Save {{item.OFFER_AMOUNT | currency:'Rs.' : 'symbol' : '1.0'}}</small>
+					</span>
+
+                </div>
+                </div>
+                <div class="col-md-1 col-xs-12 no-padding  text-right pull-right" >
+                    <span class="brk_details_a" (click)="premiumBreakup(premiumItem);open(premium);">View Breakup</span>
+    
+                </div>
+            </div>
+           
+			<!----------------------------------------------------Premium List------------------------------------------------------------->
+            <div class="row list-bg blue">
+                 
+                <div class="col-md-3 col-xs-12">
+                    <span style="font-weight:bold; color:#000;font-size: 14px;">Call Our number on 033-66074257<br>  or email us at info@gibl.in</span>
+                </div>
+                <div class="col-md-5 col-xs-12">
+               <b style="font-weight:bold; color:#000;font-size: 13px;">Get in touch with our repairs  and claims specialist today</b> 
+               <p><b style="font-weight:bold; color:#000;font-size: 13px;">We are available from 8.00 Am to 8.00 Pm</b></p>
+
+                </div>
+                <div *ngIf="callMeBackSubmit" class="col-md-4 col-xs-12" style="margin-top:10px;">
+                        <form [formGroup]="callMeBack" (ngSubmit)="call_me_back_submit()">
+
+                                <input class="col-12 col-md-8" formControlName="MobileNo" type="text" maxlength="10" placeholder="Your Mobile number Please"  style="    font-size: 13px;
+                                padding:6px;
+                                ">
+                                <button [disabled]="callMeBack.invalid" type="submit" class="btn btn-outline-secondary call-me-back col-12 col-md-4" style="font-size:13px !important"> <i class="fa fa-phone"></i>Call me Back
+                                </button>
+                        </form>
+                    
+                </div>
+                <div *ngIf="!callMeBackSubmit" class="col-md-4 col-12 " style="margin-top:10px;"> 
+                    <p style="color: #034ea2;text-align: center;font-weight: bold;">Thank you for reaching us!</p>
+                </div>
+            </div>
+        </div>
+        <!-- /#page-content-wrapper -->
+    </div>
+    
+	<!------------------------------------------------------Premium Breakup------------------------------------------->
+    <ng-template #premium let-modal>
+        <span class="close-gb" aria-hidden="true" (click)="modal.dismiss('Cross click')">&times;</span>
+        <div class="modal-body modal-lg" style="padding: 20px;background: white;margin-right: 10px;margin-left: 10px;">
+            <ngb-tabset type="pills">
+				<div *ngFor="let item of premiumBreakupJson">
+                <ngb-tab  title="{{item.premium_year_text}}" *ngIf="item.TOTAL_PREMIUM_TXT!='NA'" >
+                    <ng-template ngbTabContent>
+
+                        <table cellpadding="0" cellspacing="0" class="brk_popup" style="width: 100%;border-color: transparent;" border="1">
+                            <tbody id="qtDetailsbrk_popupmobile">
+                                <tr style="font-size:13px !important; padding-top:20px !important; font-weight:bold!important;color:#737171 !important">
+                                    <td width="80%;">Your Insurer :</td>
+                                    <td>
+									<img style="margin-bottom: 10px;" src="assets/company_logo/{{item.COMPANY_LOGO}}">
+									</td>
+                                </tr>
+								<tr style="font-size: 13px !important; padding-top:20px !important; font-weight:bold!important;color:#737171 !important">
+                                    <td width="80%;">Cover Value(IDV) :</td>
+                                    <td width="50%;" style="font-size:13px !important;">{{item.IDV | currency:'Rs.' : 'symbol' : '1.0'}}</td>
+                                </tr><br>
+                                <tr>
+                                    <th>Basic Cover</th>
+                                    <th>&nbsp;</th>
+                                </tr>
+                                
+                                <tr>
+                                    <td width="80%;">Total OD premium</td>
+                                    <td width="50%;">{{item.NUM_BASIC_OD_PREMIUM | currency:'Rs.' : 'symbol' : '1.0'}}</td>
+                                </tr>
+                               
+                                <tr>
+                                    <td width="80%;"></td>
+                                    <td width="50%;"></td>
+                                </tr>
+                                <tr>
+                                    <td width="80%;">Total TP Premium</td>
+                                    <td width="50%;">{{item.NUM_TP_RATE | currency:'Rs.' : 'symbol' : '1.0'}}</td>
+                                </tr>
+                              
+                                <tr>
+                                    <td width="80%;"></td>
+                                    <td width="50%;"></td>
+                                </tr>
+                                <tr *ngIf="(quoteJson.pa_owner || item.PROVIDER_ID=='2') || (quoteJson.zero_dep)">
+                                    <th>Additional cover (+)</th>
+                                </tr>
+                               
+                                <tr *ngIf="quoteJson.zero_dep ">
+                                    <td width="80%;">Zero Depreciation</td>
+                                    <td width="50%;" *ngIf="item.NUM_ZERO_DEPT_PREM=='Not Available'">{{item.NUM_ZERO_DEPT_PREM}}</td>
+                                    <td width="50%;" *ngIf="item.NUM_ZERO_DEPT_PREM!='Not Available'">{{item.NUM_ZERO_DEPT_PREM | currency:'Rs.' : 'symbol' : '1.0'}}</td>
+                                </tr>
+								<tr *ngIf="quoteJson.pa_owner || item.PROVIDER_ID=='2'">
+                                    <td width="80%;">PA To Owner Driver</td>
+                                    <td width="50%;" *ngIf="item.NUM_PA_TO_OWNER_DRIVER=='Not Available'">{{item.NUM_PA_TO_OWNER_DRIVER}}</td>
+                                    <td width="50%;" *ngIf="item.NUM_PA_TO_OWNER_DRIVER!='Not Available'">{{item.NUM_PA_TO_OWNER_DRIVER | currency:'Rs.' : 'symbol' : '1.0'}}</td>
+                                </tr>
+                               
+                                <tr>
+                                    <th>Discounts (-)</th>
+                                </tr>
+                               
+                                <tr *ngIf="item.OD_DISCOUNT">
+                                    <td width="80%;">OD Discount</td>
+                                    <td width="50%;">{{item.OD_DISCOUNT | currency:'Rs.' : 'symbol' : '1.0'}}</td>
+                                </tr>
+								<tr *ngIf="item.VOLUNTARY_DISCOUNT">
+                                    <td width="80%;">Voluntary Deductible</td>
+                                    <td width="50%;">{{item.VOLUNTARY_DISCOUNT | currency:'Rs.' : 'symbol' : '1.0'}}</td>
+                                </tr>
+								<tr>
+                                    <td width="80%;">No Claim Bonus</td>
+                                    <td width="50%;">{{item.NUM_NCB_PREM | currency:'Rs.' : 'symbol' : '1.0'}} ({{item.NUM_NCB_PERCENT}}%)</td>
+                                </tr>
+                               
+                                <tr>
+                                    <td width="80%;"></td>
+                                    <td width="50%;"></td>
+                                </tr>
+                               
+                                <tr>
+                                    <td width="80%;"></td>
+                                    <td width="50%;"></td>
+                                </tr>
+                                <tr>
+                                    <th>Total Premium:</th>
+                                </tr>
+                               
+                                <tr>
+                                    <td width="80%;">Net Premium:</td>
+                                    <td width="50%;">{{item.NET_PREMIUM | currency:'Rs.' : 'symbol' : '1.0'}}</td>
+                                </tr>
+                              
+                                <tr>
+                                    <th>Taxes (+)</th>
+                                </tr>
+                                <tr>
+                                    <td width="80%;">GST (18%)</td>
+                                    <td width="50%;">{{item.SERVICE_TAX | currency:'Rs.' : 'symbol' : '1.0'}}</td>
+                                </tr>
+                                <br>
+                                <tr style="font-size: 18px !important; padding-top:20px !important; font-weight:bold!important;color:black !important;">
+                                    <td width="80%;">Amount payable including GST</td>
+                                    <td width="50%;" style="font-size: 20px !important;">{{item.TOTAL_PREMIUM | currency:'Rs.' : 'symbol' : '1.0'}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </ng-template>
+                </ngb-tab>
+                </div>
+            </ngb-tabset>
+
+            <div class="premium-breakup-content" style="background: aliceblue;">
+
+            </div>
+        </div>
+    </ng-template>
+
+   
